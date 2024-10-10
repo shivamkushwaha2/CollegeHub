@@ -22,9 +22,9 @@ const signup = async (req, res) => {
             password: hashedPswrd
         });
 
-        const token = jwt.sign({ email: result.email, id: result._id }, SECRET_KEY);
+        const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_KEY);
 
-        res.status(201).json({
+        res.status(200).json({
             user: result,
             token: token
         });
@@ -56,8 +56,7 @@ const signin = async (req, res)=>{
             message:"Invalid crediantials"
         });
     }  
-
-    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, SECRET_KEY);
+    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.SECRET_KEY);
     res.status(200).json({
         user: existingUser,
         token: token
