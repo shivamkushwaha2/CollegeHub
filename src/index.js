@@ -4,12 +4,15 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const postRouter = require("./routes/postRoutes");
 
 dotenv.config();
 app.use(cors());
 
 app.use(express.json());
+
 app.use("/user",userRouter);
+app.use("/posts", postRouter);
 
 app.get("/",(req,res)=>{
     res.send("Welcome to CollegeHub");

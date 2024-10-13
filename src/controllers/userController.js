@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const signup = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, name } = req.body;
 
     try {
         const existingUser = await userModel.findOne({ email: email });
@@ -19,7 +19,8 @@ const signup = async (req, res) => {
 
         const result = await userModel.create({
             email: email,
-            password: hashedPswrd
+            password: hashedPswrd,
+            name: name
         });
 
         const token = jwt.sign({ email: result.email, id: result._id }, process.env.SECRET_KEY);
