@@ -48,17 +48,43 @@ const getPosts = async (req, res) => {
 };
 
 // Like a post
+// const likePost = async (req, res) => {
+//     const { postId } = req.params;
+    
+//     try {
+//         const post = await Post.findById(postId);
+
+//         if (!post) {
+//             return res.status(404).json({ message: "Post not found" });
+//         }
+
+//         // Check if user already liked the post
+//         const liked = post.likes.includes(req.userId);
+//         if (liked) {
+//             post.likes = post.likes.filter((id) => id.toString() !== req.userId); // Unlike
+//         } else {
+//             post.likes.push(req.userId); // Like the post
+//         }
+
+//         await post.save();
+//         res.status(200).json(post);
+//     } catch (error) {
+//         res.status(500).json({ message: "Something went wrong" });
+//         console.log(error);
+//     }
+// };
+
 const likePost = async (req, res) => {
     const { postId } = req.params;
-    
+
     try {
-        const post = await Post.findById(postId);
+        const post = await Post.findById(postId).populate("user", "name email"); // Populate the user field
 
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        // Check if user already liked the post
+        // Toggle like/unlike
         const liked = post.likes.includes(req.userId);
         if (liked) {
             post.likes = post.likes.filter((id) => id.toString() !== req.userId); // Unlike
@@ -67,11 +93,12 @@ const likePost = async (req, res) => {
         }
 
         await post.save();
-        res.status(200).json(post);
+        res.status(200).json(post); // Send back the updated post with populated user
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
         console.log(error);
     }
 };
+
 
 module.exports = { createPost, getPosts, likePost };
