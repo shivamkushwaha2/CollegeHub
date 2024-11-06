@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const postRouter = require("./routes/postRoutes");
 const notesRouter = require("./routes/notesRoutes");
+const profileRouter = require("./routes/profileRoutes")
 
 dotenv.config();
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/user",userRouter);
 app.use("/posts", postRouter);
 app.use("/notes", notesRouter);
+app.use("/profile",profileRouter);
 
 app.get("/",(req,res)=>{
     res.send("Welcome to CollegeHub");
